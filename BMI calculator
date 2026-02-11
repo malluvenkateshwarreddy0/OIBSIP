@@ -1,0 +1,62 @@
+"""Simple BMI calculator CLI and helpers.
+
+Usage:
+  python bmi_calculator.py --weight 70 --height 1.75 --units metric
+  python bmi_calculator.py  # interactive prompts
+"""
+from __future__ import annotations
+import argparse
+
+
+def calculate_bmi(weight: float, height: float, units: str = "metric") -> float:
+    """Calculate BMI.
+
+    - Metric: weight in kilograms, height in meters.
+    - Imperial: weight in pounds, height in inches.
+    """
+    if weight <= 0 or height <= 0:
+        raise ValueError("weight and height must be positive numbers")
+    units = units.lower()
+    if units == "metric":
+        return weight / (height * height)
+    if units == "imperial":
+        return 703.0 * weight / (height * height)
+    raise ValueError("units must be 'metric' or 'imperial'")
+
+
+def classify_bmi(bmi: float) -> str:
+    """Return BMI category string using WHO ranges."""
+    if bmi < 18.5:
+        return "Underweight"
+    if bmi < 25.0:
+        return "Normal weight"
+    if bmi < 30.0:
+        return "Overweight"
+    return "Obesity"
+
+
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="BMI Calculator")
+    p.add_argument("--weight", "-w", type=float, help="Weight (kg for metric, lb for imperial)")
+    p.add_argument("--height", "-t", type=float, help="Height (m for metric, in for imperial)")
+    p.add_argument("--units", "-u", choices=("metric", "imperial"), default="metric")
+    return p.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    units = args.units
+    weight = args.weight
+    height = args.height
+    if weight is None:
+        weight = float(input(f"Enter weight ({'kg' if units=='metric' else 'lb'}): ").strip())
+    if height is None:
+        height = float(input(f"Enter height ({'m' if units=='metric' else 'in'}): ").strip())
+
+    bmi = calculate_bmi(weight, height, units)
+    category = classify_bmi(bmi)
+    print(f"BMI: {bmi:.1f} — {category}")
+
+
+if __name__ == "__main__":
+    main()
