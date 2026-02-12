@@ -4,11 +4,7 @@ import argparse
 
 
 def calculate_bmi(weight: float, height: float, units: str = "metric") -> float:
-    """Calculate BMI.
 
-    - Metric: weight in kilograms, height in meters.
-    - Imperial: weight in pounds, height in inches.
-    """
     if weight <= 0 or height <= 0:
         raise ValueError("weight and height must be positive numbers")
     units = units.lower()
@@ -20,7 +16,7 @@ def calculate_bmi(weight: float, height: float, units: str = "metric") -> float:
 
 
 def classify_bmi(bmi: float) -> str:
-    """Return BMI category string using WHO ranges."""
+   
     if bmi < 18.5:
         return "Underweight"
     if bmi < 25.0:
