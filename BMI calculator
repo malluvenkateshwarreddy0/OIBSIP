@@ -1,9 +1,4 @@
-"""Simple BMI calculator CLI and helpers.
 
-Usage:
-  python bmi_calculator.py --weight 70 --height 1.75 --units metric
-  python bmi_calculator.py  # interactive prompts
-"""
 from __future__ import annotations
 import argparse
 
